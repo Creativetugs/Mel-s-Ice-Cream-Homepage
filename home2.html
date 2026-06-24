@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mel’s Ice Cream - Serving Smiles Since 1960</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FFFDF9',
+                            100: '#FDF6E2',
+                            200: '#FBECC4',
+                            300: '#F7DB99',
+                            600: '#D99B26',
+                        },
+                        icepink: {
+                            50: '#FFF1F3',
+                            100: '#FFE4E6',
+                            200: '#FECDD3',
+                            500: '#F43F5E',
+                            600: '#E11D48',
+                            700: '#BE123C',
+                        },
+                        iceblue: {
+                            50: '#F0F9FF',
+                            100: '#E0F2FE',
+                            500: '#0EA5E9',
+                            600: '#0284C7',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Alpine.js for lightweight interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        .melt-shape {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #FFFDF9 0%, #FFF1F3 100%);
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-slate-800 font-sans antialiased overflow-x-hidden" x-data="{ bookingModal: false, applyModal: false, activeFilter: 'all', lightboxImg: '', showLightbox: false }">
+
+    <!-- Sticky Quick Action Bar -->
+    <div class="bg-icepink-600 text-white py-2 px-4 text-center text-xs md:text-sm font-semibold tracking-wide z-50 relative flex justify-between items-center px-4 md:px-8">
+        <span class="flex items-center gap-1.5 mx-auto md:mx-0">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-300"></span>
+            </span>
+            Now Booking For Summer &amp; Fall Events 2026!
+        </span>
+        <div class="hidden md:flex gap-4 items-center text-xs">
+            <a href="tel:5089479477" class="hover:underline flex items-center gap-1"><i class="fas fa-phone"></i> (508) 947-9477</a>
+            <span class="opacity-50">|</span>
+            <button @click="bookingModal = true" class="bg-yellow-400 text-slate-900 px-3 py-1 rounded-full hover:bg-white transition-colors">Book Now</button>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-cream-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="bg-icepink-500 text-white p-2.5 rounded-full shadow-md group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-ice-cream text-2xl"></i>
+                </div>
+                <div>
+                    <span class="block text-xl md:text-2xl font-black tracking-tight text-icepink-600 font-serif">Mel's Ice Cream</span>
+                    <span class="block text-[10px] tracking-widest text-cream-600 font-bold uppercase">Since 1960 • Massachusetts</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Menu -->
+            <nav class="hidden md:flex items-center ml-12 gap-8 font-semibold text-sm text-slate-600">
+                <a href="#about" class="hover:text-icepink-600 transition-colors">Our Story</a>
+                <a href="#services" class="hover:text-icepink-600 transition-colors">Services</a>
+                <a href="#why-choose-us" class="hover:text-icepink-600 transition-colors">Why Mel's</a>
+                <a href="#gallery" class="hover:text-icepink-600 transition-colors">Gallery</a>
+                <a href="#hiring" class="hover:text-icepink-600 transition-colors">Careers</a>
+            </nav>
+
+            <!-- CTA Desktop Button (Right Aligned) -->
+            <div class="hidden lg:flex items-center ml-auto gap-4">
+                <button @click="bookingModal = true" class="bg-icepink-500 text-white px-5 py-2.5 rounded-full font-bold shadow-md hover:bg-icepink-600 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                    Book Event Truck
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button @click="mobileMenu = !mobileMenu" class="md:hidden text-slate-700 p-2 hover:bg-cream-100 rounded-lg transition-colors" x-data="{ mobileMenu: false }">
+                <i class="fas" :class="mobileMenu ? 'fa-times text-xl' : 'fa-bars text-xl'"></i>
+                
+                <!-- Mobile Dropdown Menu -->
+                <div x-show="mobileMenu" x-transition class="absolute top-20 left-0 right-0 bg-white border-b border-cream-100 p-6 flex flex-col gap-4 text-left shadow-xl font-semibold text-slate-700 z-50">
+                    <a href="#about" @click="mobileMenu = false" class="hover:text-icepink-600">Our Story</a>
+                    <a href="#services" @click="mobileMenu = false" class="hover:text-icepink-600">Services</a>
+                    <a href="#why-choose-us" @click="mobileMenu = false" class="hover:text-icepink-600">Why Mel's</a>
+                    <a href="#gallery" @click="mobileMenu = false" class="hover:text-icepink-600">Gallery</a>
+                    <a href="#hiring" @click="mobileMenu = false" class="hover:text-icepink-600">Careers</a>
+                    <div class="h-px bg-cream-100 my-2"></div>
+                    <button @click="bookingModal = true; mobileMenu = false" class="bg-icepink-500 text-white w-full py-3 rounded-full shadow-md font-bold text-center">
+                        Book Event Truck
+                    </button>
+                    <button @click="applyModal = true; mobileMenu = false" class="border border-slate-300 hover:bg-slate-50 text-slate-700 w-full py-3 rounded-full font-bold text-center">
+                        Apply For Jobs
+                    </button>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient relative overflow-hidden py-16 md:py-24 border-b border-cream-100">
+        <!-- Floating graphics/shapes -->
+        <div class="absolute top-12 left-6 bg-yellow-300/30 w-16 h-16 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute bottom-16 right-12 bg-icepink-200/40 w-32 h-32 rounded-full blur-2xl animate-bounce duration-1000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-yellow-200 shadow-sm text-yellow-600 font-bold text-xs uppercase tracking-wider">
+                        <span>🍦 Serving Smiles Since 1960</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black font-serif text-slate-900 leading-tight">
+                        Middleboro’s Favorite <br>
+                        <span class="text-icepink-600 relative inline-block">
+                            Ice Cream Truck
+                            <!-- Melting underline element -->
+                            <svg class="absolute -bottom-2 left-0 w-full h-3 text-yellow-300" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                <path d="M0,5 Q20,10 40,5 T80,5 T100,5" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </span> 
+                        &amp; Catering
+                    </h1>
+
+                    <p class="text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        From neighborhood stops to weddings, school events, birthdays, and corporate gatherings — Mel’s Ice Cream has been delivering sweet memories across Massachusetts for over 60 years.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                        <button @click="bookingModal = true" class="bg-icepink-500 text-white px-8 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-icepink-200 hover:bg-icepink-600 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                            <i class="fa-solid fa-truck-pickup mr-2"></i> Book Your Event
+                        </button>
+                        <button @click="applyModal = true" class="bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-full font-extrabold text-lg shadow-sm hover:border-icepink-500 hover:text-icepink-600 transition-all duration-300">
+                            Apply for Jobs
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-center lg:justify-start gap-4 pt-6 text-sm text-slate-500">
+                        <span class="flex items-center gap-1"><i class="fas fa-check-circle text-green-500"></i> Family-owned</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1"><i class="fas fa-check-circle text-green-500"></i> Fully Insured</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1"><i class="fas fa-check-circle text-green-500"></i> Local Legend</span>
+                    </div>
+                </div>
+
+                <!-- Right Visual: Curated High-Quality Display of Mel's Trucks -->
+                <div class="lg:col-span-5 relative">
+                    <!-- Rotating Backing Circle -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-icepink-100 to-yellow-100 rounded-full scale-95 animate-spin duration-[20s] opacity-60"></div>
+                    
+                    <div class="relative flex items-center justify-center p-8">
+                        <!-- Cleaned Truck Image -->
+                        <img src="https://raw.githubusercontent.com/Creativetugs/Mel-s-Ice-Cream-Homepage/refs/heads/main/mels%20truck%20cleanup.webp" 
+                             alt="Mel's Ice Cream Truck" 
+                             class="w-full h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                             onerror="this.src='https://placehold.co/600x400/FFF1F3/BE123C?text=Mels+Ice+Cream+Truck'">
+                        
+                        <!-- Mini Floating Sticker -->
+                        <div class="absolute bottom-6 left-6 bg-yellow-400 text-slate-900 px-4 py-2 rounded-xl shadow-lg font-black text-sm uppercase tracking-wider transform -rotate-6 hover:rotate-0 transition-transform">
+                            ✨ Since 1960!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Strip -->
+    <section class="bg-white border-b border-cream-100 py-8 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center divide-y lg:divide-y-0 lg:divide-x divide-cream-200">
+                <div class="text-center py-2 flex flex-col items-center justify-center">
+                    <div class="text-2xl text-yellow-500 mb-2"><i class="fas fa-star animate-pulse"></i></div>
+                    <span class="font-bold text-slate-800 tracking-wide text-sm">Family-Owned Since 1960</span>
+                    <span class="text-xs text-slate-400 mt-0.5">3 Generations of Joy</span>
+                </div>
+                <div class="text-center py-2 flex flex-col items-center justify-center">
+                    <div class="text-2xl text-icepink-500 mb-2"><i class="fas fa-truck-moving"></i></div>
+                    <span class="font-bold text-slate-800 tracking-wide text-sm">Serving Middleboro &amp; Beyond</span>
+                    <span class="text-xs text-slate-400 mt-0.5">Southeastern Massachusetts</span>
+                </div>
+                <div class="text-center py-2 flex flex-col items-center justify-center">
+                    <div class="text-2xl text-iceblue-500 mb-2"><i class="fas fa-calendar-check"></i></div>
+                    <span class="font-bold text-slate-800 tracking-wide text-sm">Private Event Experts</span>
+                    <span class="text-xs text-slate-400 mt-0.5">Weddings, Birthdays &amp; Corporate</span>
+                </div>
+                <div class="text-center py-2 flex flex-col items-center justify-center">
+                    <div class="text-2xl text-green-500 mb-2"><i class="fas fa-boxes-packing"></i></div>
+                    <span class="font-bold text-slate-800 tracking-wide text-sm">Wholesale &amp; Retail</span>
+                    <span class="text-xs text-slate-400 mt-0.5">Bulk Ice Cream Solutions</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-cream-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Visuals: Heritage Photo Stack -->
+                <div class="relative space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="overflow-hidden rounded-2xl shadow-md border-4 border-white transform hover:scale-105 transition-transform">
+                                <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725742265_1388455369804706_2520547138625833792_n%20(1).jpg?raw=true" 
+                                     alt="Mel's Truck Front View" 
+                                     class="w-full h-48 object-cover"
+                                     onerror="this.src='https://placehold.co/400x300/FDF6E2/D99B26?text=Mels+Classic'">
+                            </div>
+                            <div class="overflow-hidden rounded-2xl shadow-md border-4 border-white transform hover:scale-105 transition-transform">
+                                <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/726937454_1444247050748195_17775585903229952_n.jpg?raw=true" 
+                                     alt="Events Service" 
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.src='https://placehold.co/400x400/FFF1F3/E11D48?text=Events'">
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-8">
+                            <div class="overflow-hidden rounded-2xl shadow-md border-4 border-white transform hover:scale-105 transition-transform">
+                                <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725742265_1388455369804706_2520547138625833792_n%20(2).jpg?raw=true" 
+                                     alt="Happy Customers Vintage" 
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.src='https://placehold.co/400x400/E0F2FE/0284C7?text=Vintage+Mels'">
+                            </div>
+                            <div class="overflow-hidden rounded-2xl shadow-md border-4 border-white transform hover:scale-105 transition-transform">
+                                <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725270334_1039979698708116_7214938000462938890_n.jpg?raw=true" 
+                                     alt="Truck detail" 
+                                     class="w-full h-48 object-cover"
+                                     onerror="this.src='https://placehold.co/400x300/FFFDF9/D99B26?text=Mels+Side'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content -->
+                <div class="space-y-6">
+                    <span class="text-icepink-600 font-bold uppercase tracking-wider text-sm flex items-center gap-2">
+                        <span class="w-8 h-[2px] bg-icepink-600"></span> A Massachusetts Tradition on Wheels
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-slate-900 leading-tight">
+                        Bringing Community &amp; Cones Together for Generations
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed text-lg">
+                        For generations, Mel’s Ice Cream has been a staple of the Massachusetts community, bringing pure joy one cone at a time. What started back in 1960 has evolved into a highly trusted local favorite known for prompt, friendly service, premium frozen treats, and nostalgic event bookings.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed">
+                        Planning a birthday party, school assembly, local sports game, corporate dynamic day, wedding, or neighborhood gathering? We alleviate all event hosting stress by driving the fun right to your destination!
+                    </p>
+
+                    <!-- Quote Block -->
+                    <div class="bg-white border-l-4 border-yellow-400 p-5 rounded-r-xl shadow-sm italic text-slate-700">
+                        "Over 60 years of sweet memories. Every truck brings nostalgia, smiles, and the finest selection of frozen favorites."
+                    </div>
+
+                    <div class="pt-4 flex gap-6 items-center">
+                        <div>
+                            <span class="block text-4xl font-black text-icepink-600 font-serif">60+</span>
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Years of Joy</span>
+                        </div>
+                        <div class="h-10 w-px bg-slate-300"></div>
+                        <div>
+                            <span class="block text-4xl font-black text-slate-900 font-serif">100k+</span>
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Cones Served</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white border-t border-b border-cream-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-icepink-600 font-bold uppercase tracking-wider text-sm">Services We Offer</span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-serif text-slate-900">
+                    How We Can Make Your Next Event Sweet
+                </h2>
+                <p class="text-slate-500">
+                    We specialize in premium rentals, customized catering menus, and high-volume local retail or wholesale support. Explore our main channels:
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-cream-50 rounded-3xl p-8 border border-cream-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-icepink-100 text-icepink-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">Ice Cream Truck Rentals</h3>
+                        <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                            Make your event absolutely unforgettable with our nostalgic, fully stocked original ice cream trucks.
+                        </p>
+                        <h4 class="font-bold text-xs text-slate-500 uppercase tracking-wider mb-3">Perfect for:</h4>
+                        <ul class="space-y-2 mb-8">
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-green-500"></i> Birthday Parties
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-green-500"></i> School Functions
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-green-500"></i> Sports Tournaments
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-green-500"></i> Weddings &amp; Block Parties
+                            </li>
+                        </ul>
+                    </div>
+                    <button @click="bookingModal = true" class="w-full bg-white hover:bg-icepink-500 hover:text-white text-slate-700 font-bold py-3 rounded-2xl border border-slate-200 transition-all text-center text-sm">
+                        Book Your Truck Today
+                    </button>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="bg-cream-50 rounded-3xl p-8 border border-cream-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">Special Event Catering</h3>
+                        <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                            Inject maximum excitement into large gatherings with customizable novelty bars and vintage styling options.
+                        </p>
+                        <h4 class="font-bold text-xs text-slate-500 uppercase tracking-wider mb-3">We provide:</h4>
+                        <ul class="space-y-2 mb-8">
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-yellow-600"></i> Professional Servicing Staff
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-yellow-600"></i> Precision Route Timing
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-yellow-600"></i> Large Crowd Management
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-yellow-600"></i> custom novelty menus
+                            </li>
+                        </ul>
+                    </div>
+                    <button @click="bookingModal = true" class="w-full bg-icepink-500 text-white font-bold py-3 rounded-2xl hover:bg-icepink-600 transition-all text-center text-sm">
+                        Plan My Custom Event
+                    </button>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="bg-cream-50 rounded-3xl p-8 border border-cream-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-iceblue-100 text-iceblue-500 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-3">Wholesale &amp; Retail</h3>
+                        <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                            Need bulk frozen Novelties, pre-packaged ice creams, or high volume pops for your convenience store or local fundraiser? We support!
+                        </p>
+                        <h4 class="font-bold text-xs text-slate-500 uppercase tracking-wider mb-3">Ideal solutions:</h4>
+                        <ul class="space-y-2 mb-8">
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-iceblue-500"></i> Local Stores &amp; Outlets
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-iceblue-500"></i> Educational Fundraisers
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-iceblue-500"></i> Large Youth Camps
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-700">
+                                <i class="fas fa-check text-iceblue-500"></i> Custom Bulk Pricing
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="mailto:melsicecream21@gmail.com" class="w-full bg-white hover:bg-slate-100 text-slate-700 font-bold py-3 rounded-2xl border border-slate-200 transition-all text-center block text-sm">
+                        Contact Wholesale Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sweet Specialties Carousel Mockup -->
+    <section class="py-16 bg-cream-100/40 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+                <div>
+                    <span class="text-icepink-600 font-bold uppercase tracking-wider text-xs">Our Menu</span>
+                    <h2 class="text-3xl font-extrabold font-serif text-slate-900">Classic Favorites We Stock</h2>
+                </div>
+                <div class="text-slate-500 text-sm mt-2 md:mt-0">
+                    <i class="fa-solid fa-cookie-bite mr-1"></i> Selection includes classic bars, novelty pops, sandwiches &amp; more.
+                </div>
+            </div>
+
+            <!-- Flavor Flex Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="bg-white p-4 rounded-2xl text-center shadow-sm hover:scale-105 transition-transform border border-cream-200">
+                    <span class="text-4xl block mb-2">🍦</span>
+                    <h4 class="font-bold text-slate-900 text-sm">Traditional Soft Cones</h4>
+                    <p class="text-xs text-slate-400 mt-1">Chocolate, Vanilla &amp; Twist</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl text-center shadow-sm hover:scale-105 transition-transform border border-cream-200">
+                    <span class="text-4xl block mb-2">🍓</span>
+                    <h4 class="font-bold text-slate-900 text-sm">Strawberry Shortcake</h4>
+                    <p class="text-xs text-slate-400 mt-1">Classic Crumble Bar</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl text-center shadow-sm hover:scale-105 transition-transform border border-cream-200">
+                    <span class="text-4xl block mb-2">🍪</span>
+                    <h4 class="font-bold text-slate-900 text-sm">Ice Cream Sandwiches</h4>
+                    <p class="text-xs text-slate-400 mt-1">Classic Wafer &amp; Chip-wich</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl text-center shadow-sm hover:scale-105 transition-transform border border-cream-200">
+                    <span class="text-4xl block mb-2">🚀</span>
+                    <h4 class="font-bold text-slate-900 text-sm">Rocket Pops</h4>
+                    <p class="text-xs text-slate-400 mt-1">Red, White &amp; Blue Nostalgia</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl text-center shadow-sm hover:scale-105 transition-transform border border-cream-200 col-span-2 md:col-span-1">
+                    <span class="text-4xl block mb-2">🍫</span>
+                    <h4 class="font-bold text-slate-900 text-sm">Fudge Bars</h4>
+                    <p class="text-xs text-slate-400 mt-1">Rich Premium Chocolate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-choose-us" class="py-20 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <span class="text-icepink-600 font-bold uppercase tracking-wider text-sm">Why Mel’s Ice Cream</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-slate-900">
+                    Why Families &amp; Businesses Love Us
+                </h2>
+                <p class="text-slate-500">60+ years of flawless service and pure joy are backed by key core strengths</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Reason 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-cream-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-100 text-icepink-600 flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">60+ Years Experience</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Trusted by multiple generations of families across southeastern Massachusetts.
+                    </p>
+                </div>
+                <!-- Reason 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-cream-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-yellow-100 text-yellow-600 flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Reliable &amp; Professional</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        On-time dispatch, professional drivers, clean machinery, and always reliable.
+                    </p>
+                </div>
+                <!-- Reason 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-cream-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-iceblue-500 flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fas fa-list-stars"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Huge Variety of Treats</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Classic treats, novelty character bars, cones, sandwiches, and premium selections.
+                    </p>
+                </div>
+                <!-- Reason 4 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-cream-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fas fa-sparkles"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Perfect for Any Occasion</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        From cozy backyard birthday parties to multi-thousand attendee public events.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-4">
+                <span class="text-icepink-600 font-bold uppercase tracking-wider text-sm">Shared Moments</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-slate-900">
+                    Sweet Moments We’ve Shared
+                </h2>
+                <p class="text-slate-500">
+                    See Mel's beautiful fleet, friendly staff, and the legendary smiles we bring on every route block and booking.
+                </p>
+
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap justify-center gap-2 pt-4">
+                    <button @click="activeFilter = 'all'" :class="activeFilter === 'all' ? 'bg-icepink-500 text-white' : 'bg-cream-100 text-slate-700 hover:bg-cream-200'" class="px-4 py-2 rounded-full text-xs font-bold uppercase transition-colors">
+                        Show All
+                    </button>
+                    <button @click="activeFilter = 'trucks'" :class="activeFilter === 'trucks' ? 'bg-icepink-500 text-white' : 'bg-cream-100 text-slate-700 hover:bg-cream-200'" class="px-4 py-2 rounded-full text-xs font-bold uppercase transition-colors">
+                        Our Trucks
+                    </button>
+                    <button @click="activeFilter = 'events'" :class="activeFilter === 'events' ? 'bg-icepink-500 text-white' : 'bg-cream-100 text-slate-700 hover:bg-cream-200'" class="px-4 py-2 rounded-full text-xs font-bold uppercase transition-colors">
+                        Events &amp; Happy Kids
+                    </button>
+                    <button @click="activeFilter = 'community'" :class="activeFilter === 'community' ? 'bg-icepink-500 text-white' : 'bg-cream-100 text-slate-700 hover:bg-cream-200'" class="px-4 py-2 rounded-full text-xs font-bold uppercase transition-colors">
+                        Heritage
+                    </button>
+                </div>
+            </div>
+
+            <!-- Highly Detailed Image Grid using provided raw assets -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                
+                <!-- Polaroid Asset 1 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'trucks'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725742265_1388455369804706_2520547138625833792_n.jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725742265_1388455369804706_2520547138625833792_n.jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Classic Truck View</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 2 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'community'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725270334_1039979698708116_7214938000462938890_n.jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725270334_1039979698708116_7214938000462938890_n.jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Summer Truck Lines</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 3 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'events'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725904376_27970057465911909_1656165693148103746_n.jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725904376_27970057465911909_1656165693148103746_n.jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Making Smiles on Route</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 4 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'trucks'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725742265_1388455369804706_2520547138625833792_n%20(2).jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/725742265_1388455369804706_2520547138625833792_n%20(2).jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Classic Truck Side Graphics</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 5 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'community'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/726937454_1444247050748195_17775585903229952_n.jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/726937454_1444247050748195_17775585903229952_n.jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Historic Neighborhood Stop</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 6 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'events'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/726937454_1444247050748195_17775585903229952_n%20(1).jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/726937454_1444247050748195_17775585903229952_n%20(1).jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Children Grabbing Treats</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 7 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'events'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/727058515_1242229291191438_8839106325269167396_n.jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/727058515_1242229291191438_8839106325269167396_n.jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Generations of Customers</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Asset 8 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'trucks'" class="group cursor-pointer bg-white p-3 rounded-xl shadow-md border hover:-translate-y-2 hover:shadow-xl transition-all" @click="lightboxImg = 'https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/730760042_1698848901423927_691848623708442386_n.jpg?raw=true'; showLightbox = true">
+                    <div class="overflow-hidden rounded-lg h-52 bg-slate-100">
+                        <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/730760042_1698848901423927_691848623708442386_n.jpg?raw=true" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="pt-3 text-center">
+                        <span class="text-xs font-bold text-slate-800">Mel's Truck Fleet lineup</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal Overlay -->
+    <div x-show="showLightbox" class="fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center p-4 transition-all" x-transition>
+        <div class="relative max-w-4xl w-full bg-white p-2 rounded-2xl shadow-2xl" @click.away="showLightbox = false">
+            <button @click="showLightbox = false" class="absolute -top-12 right-0 text-white hover:text-yellow-300 text-3xl font-bold">&times;</button>
+            <img :src="lightboxImg" class="w-full max-h-[80vh] object-contain rounded-lg">
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-cream-50/70 border-t border-b border-cream-100 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <span class="text-icepink-600 font-bold uppercase tracking-wider text-sm">Simple Process</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-slate-900">
+                    Booking Is as Easy as 1-2-3
+                </h2>
+                <p class="text-slate-500">How to get Mel's Ice Cream Truck directly to your front gate</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12 relative">
+                <!-- Step 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm text-center relative border border-cream-100 hover:shadow-lg transition-all duration-300">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-icepink-500 text-white font-black flex items-center justify-center text-lg shadow-md">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 mt-4">Tell Us About Your Event</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Share your chosen date, location, event theme, and estimated guests. We accommodate groups of any size!
+                    </p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm text-center relative border border-cream-100 hover:shadow-lg transition-all duration-300">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-lg shadow-md">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 mt-4">We Plan the Perfect Setup</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Our event team coordinates custom scheduling routes, selects perfect truck options, and reviews menu choices.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm text-center relative border border-cream-100 hover:shadow-lg transition-all duration-300">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-iceblue-500 text-white font-black flex items-center justify-center text-lg shadow-md">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 mt-4">We Show Up &amp; Serve</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Sit back, relax, and savor your party. We bring the high energy music, delicious frozen goodies, and professional staff.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button @click="bookingModal = true" class="bg-icepink-500 text-white px-8 py-3.5 rounded-full font-bold shadow hover:bg-icepink-600 transition-colors">
+                    Get Event Pricing Quote
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Employment Section -->
+    <section id="hiring" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-br from-icepink-50 to-cream-100/60 rounded-3xl p-8 md:p-16 border border-cream-200 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-yellow-300/20 rounded-full blur-2xl"></div>
+                
+                <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+                    <div class="space-y-6 text-left">
+                        <span class="inline-block bg-yellow-400 text-slate-950 font-extrabold text-xs uppercase px-3 py-1.5 rounded-full tracking-wider">
+                            Now Hiring for Seasonal Positions!
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-slate-900 leading-tight">
+                            Join the Mel’s Ice Cream Team
+                        </h2>
+                        <p class="text-slate-600">
+                            Love working outdoors, interacting with happy communities, and putting smiles on kids' faces? We’re always seeking friendly, dedicated, and safety-conscious people to drive &amp; support our operations.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-2xl border border-cream-200">
+                                <span class="font-bold text-slate-800 text-sm block">📍 Flexible Hours</span>
+                                <span class="text-xs text-slate-400">Perfect for students or part-time seekers</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-2xl border border-cream-200">
+                                <span class="font-bold text-slate-800 text-sm block">☀️ Great Work Environment</span>
+                                <span class="text-xs text-slate-400">Fun, fast, outdoor operations</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-2xl border border-cream-200">
+                                <span class="font-bold text-slate-800 text-sm block">💵 Competitive Pay</span>
+                                <span class="text-xs text-slate-400">Great base pay + performance bonuses</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-2xl border border-cream-200">
+                                <span class="font-bold text-slate-800 text-sm block">👥 Amazing Team Culture</span>
+                                <span class="text-xs text-slate-400">Family-first supportive work styles</span>
+                            </div>
+                        </div>
+
+                        <!-- Hiring Positions list -->
+                        <div class="space-y-3">
+                            <p class="font-extrabold text-sm text-slate-700 uppercase tracking-widest">Immediate Openings For:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white px-3 py-1.5 rounded-lg border text-xs font-semibold text-slate-700">🚚 Ice Cream Truck Drivers</span>
+                                <span class="bg-white px-3 py-1.5 rounded-lg border text-xs font-semibold text-slate-700">🎉 Event Helpers</span>
+                                <span class="bg-white px-3 py-1.5 rounded-lg border text-xs font-semibold text-slate-700">🍦 Seasonal Prep Staff</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button @click="applyModal = true" class="bg-icepink-500 hover:bg-icepink-600 text-white font-bold px-8 py-3.5 rounded-full transition-colors shadow-md">
+                                Apply Now Online
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right visual display showing dynamic hiring imagery -->
+                    <div class="hidden lg:block">
+                        <div class="bg-white p-4 rounded-2xl shadow-xl border border-cream-100 rotate-2 max-w-sm mx-auto">
+                            <img src="https://github.com/Creativetugs/Mel-s-Ice-Cream-Homepage/blob/main/727321454_1087204633640239_968057526880218851_n.jpg?raw=true" 
+                                 class="rounded-xl h-80 w-full object-cover"
+                                 onerror="this.src='https://placehold.co/400x500/FFFDF9/D99B26?text=Mels+Careers'">
+                            <p class="text-center font-serif text-slate-700 font-bold mt-4">"Be the highlight of their day!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Banner -->
+    <section class="py-16 bg-gradient-to-r from-blue-50 to-iceblue-100 border-t border-b border-blue-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-8 space-y-4 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                        <i class="fab fa-facebook-f text-sm"></i> Facebook Updates
+                    </div>
+                    <h2 class="text-3xl font-extrabold font-serif text-slate-900">
+                        Follow Us for Daily Routes, Events &amp; Sweet Updates!
+                    </h2>
+                    <p class="text-slate-600">
+                        Stay connected with Mel’s Ice Cream on Facebook to check precisely where we’ll be parking next, upcoming community fairs, and holiday pop-up specials. Follow Bare Basics on Facebook (or Mel's official page) for daily Massachusetts routes!
+                    </p>
+                </div>
+                <div class="lg:col-span-4 text-center lg:text-right">
+                    <a href="https://facebook.com" target="_blank" rel="noopener" class="inline-block bg-[#1877F2] hover:bg-blue-700 text-white font-extrabold text-lg px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1">
+                        <i class="fab fa-facebook-square mr-2"></i> Visit Facebook Page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ready to Book CTA Area -->
+    <section class="py-20 bg-cream-100 relative overflow-hidden">
+        <div class="absolute -top-16 -left-16 w-32 h-32 bg-icepink-200/30 rounded-full blur-3xl"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-8 relative z-10">
+            <span class="text-icepink-600 font-bold uppercase tracking-wider text-sm">Let’s Make It Sweeter</span>
+            <h2 class="text-3xl sm:text-5xl font-black font-serif text-slate-950">
+                Ready to Bring the Ice Cream Truck to Your Event?
+            </h2>
+            <p class="text-slate-700 text-lg leading-relaxed max-w-2xl mx-auto">
+                Secure your booking today, request custom pricing menus, or enquire about hiring. Let's make your next celebration memorable.
+            </p>
+
+            <div class="grid sm:grid-cols-3 gap-6 text-left py-6">
+                <!-- Contact Block 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-cream-200">
+                    <span class="block text-2xl text-icepink-500 mb-2"><i class="fas fa-phone-alt"></i></span>
+                    <span class="font-bold text-xs uppercase tracking-widest text-slate-400 block">Call Us</span>
+                    <a href="tel:5089479477" class="font-extrabold text-slate-900 hover:text-icepink-600 transition-colors block mt-1">(508) 947-9477</a>
+                </div>
+                <!-- Contact Block 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-cream-200">
+                    <span class="block text-2xl text-yellow-500 mb-2"><i class="fas fa-envelope"></i></span>
+                    <span class="font-bold text-xs uppercase tracking-widest text-slate-400 block">Email Us</span>
+                    <a href="mailto:melsicecream21@gmail.com" class="font-extrabold text-slate-900 hover:text-icepink-600 transition-colors block mt-1 break-all">melsicecream21@gmail.com</a>
+                </div>
+                <!-- Contact Block 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-cream-200">
+                    <span class="block text-2xl text-iceblue-500 mb-2"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="font-bold text-xs uppercase tracking-widest text-slate-400 block">Location</span>
+                    <span class="font-extrabold text-slate-900 block mt-1 text-sm">350 Wareham St, Middleboro, MA 02346</span>
+                </div>
+            </div>
+
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
+                <button @click="bookingModal = true" class="bg-icepink-600 text-white px-10 py-5 rounded-full font-black text-xl shadow-lg hover:bg-icepink-700 transition-colors transform hover:-translate-y-1 duration-200">
+                    Book Your Event Today
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-12">
+            <!-- Brand Column -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-icepink-500 text-white p-2 rounded-full">
+                        <i class="fa-solid fa-ice-cream text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold font-serif text-white">Mel's Ice Cream</span>
+                </div>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Bringing beautiful memories, clean service, and delicious prepackaged treats to your Massachusetts events since 1960.
+                </p>
+                <div class="flex gap-3 text-slate-400">
+                    <a href="#" class="hover:text-white transition-colors text-lg"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white transition-colors text-lg"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white transition-colors text-lg"><i class="fab fa-yelp"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="space-y-4">
+                <h4 class="text-white font-extrabold text-sm uppercase tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-sm text-slate-400">
+                    <li><a href="#about" class="hover:text-white transition-colors">Our History</a></li>
+                    <li><a href="#services" class="hover:text-white transition-colors">Services Offered</a></li>
+                    <li><a href="#why-choose-us" class="hover:text-white transition-colors">Why Choose Mel's</a></li>
+                    <li><a href="#gallery" class="hover:text-white transition-colors">Shared Gallery</a></li>
+                    <li><a href="#hiring" class="hover:text-white transition-colors">Apply For Job</a></li>
+                </ul>
+            </div>
+
+            <!-- Service Regions -->
+            <div class="space-y-4">
+                <h4 class="text-white font-extrabold text-sm uppercase tracking-wider">Service Areas</h4>
+                <ul class="space-y-2 text-sm text-slate-400">
+                    <li>📍 Middleboro, MA</li>
+                    <li>📍 Lakeville, MA</li>
+                    <li>📍 Rochester, MA</li>
+                    <li>📍 Wareham, MA</li>
+                    <li>📍 Surrounding Communities</li>
+                </ul>
+            </div>
+
+            <!-- Contacts Info -->
+            <div class="space-y-4">
+                <h4 class="text-white font-extrabold text-sm uppercase tracking-wider">Connect Directly</h4>
+                <p class="text-sm text-slate-400">
+                    Have questions about specific pricing rates, route scheduling, or fundraising? Connect with Mel's management team:
+                </p>
+                <div class="space-y-1 text-sm">
+                    <span class="block">📞 Call: <a href="tel:5089479477" class="text-white hover:underline">(508) 947-9477</a></span>
+                    <span class="block">📧 Email: <a href="mailto:melsicecream21@gmail.com" class="text-white hover:underline">melsicecream21@gmail.com</a></span>
+                    <span class="block text-slate-500">Website: melsicecream.com</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between gap-4">
+            <span>© 2026 Mel’s Ice Cream. All rights reserved. • Proudly family-owned.</span>
+            <div class="flex gap-4 justify-center">
+                <a href="#" class="hover:underline">Privacy Policy</a>
+                <span>•</span>
+                <a href="#" class="hover:underline">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div x-show="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/65 overflow-y-auto" x-transition>
+        <div class="relative bg-white max-w-lg w-full rounded-3xl p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto" @click.away="bookingModal = false">
+            <button @click="bookingModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-2xl font-bold">&times;</button>
+            
+            <div class="text-center space-y-2">
+                <span class="text-2xl">🍦</span>
+                <h3 class="text-2xl font-black font-serif text-slate-900">Book Mel's Event Truck</h3>
+                <p class="text-xs text-slate-500">We'll review dates, group size, and follow up promptly with your custom pricing.</p>
+            </div>
+
+            <!-- Booking form simulation -->
+            <form @submit.prevent="alert('Thank you for booking with Mel\'s! Our coordination team will reach out shortly.'); bookingModal = false;" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Full Name</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="First Last">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Email Address</label>
+                        <input type="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="you@domain.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Phone Number</label>
+                        <input type="tel" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="(508) 123-4567">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Preferred Date</label>
+                        <input type="date" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Estimated Guests</label>
+                        <select required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none bg-white">
+                            <option>10 - 30 Guests</option>
+                            <option>31 - 75 Guests</option>
+                            <option>76 - 150 Guests</option>
+                            <option>150+ Large Event</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Event Location (City/Town)</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="e.g. Middleboro, Lakeville">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Special Event Notes</label>
+                    <textarea rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="Tell us if this is for a Wedding, School Picnic, Graduation, etc."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-icepink-500 text-white font-black py-3 rounded-xl hover:bg-icepink-600 transition-colors shadow">
+                    Submit Booking Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Job Application Modal -->
+    <div x-show="applyModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/65 overflow-y-auto" x-transition>
+        <div class="relative bg-white max-w-lg w-full rounded-3xl p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto" @click.away="applyModal = false">
+            <button @click="applyModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-2xl font-bold">&times;</button>
+            
+            <div class="text-center space-y-2">
+                <span class="text-2xl">☀️</span>
+                <h3 class="text-2xl font-black font-serif text-slate-900">Work With Mel's Ice Cream</h3>
+                <p class="text-xs text-slate-500">Apply online for seasonal positions &amp; custom event helpers.</p>
+            </div>
+
+            <!-- Employment form simulation -->
+            <form @submit.prevent="alert('Thank you for applying to Mel\'s! Our hiring staff will review your application soon.'); applyModal = false;" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Full Name</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="Your Name">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Email</label>
+                        <input type="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="name@domain.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Phone</label>
+                        <input type="tel" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="(508) 555-0199">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Position Desired</label>
+                        <select required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none bg-white">
+                            <option>Truck Driver (Clean License)</option>
+                            <option>Event Helper</option>
+                            <option>Seasonal Staff</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Age Bracket</label>
+                        <select required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none bg-white">
+                            <option>18 or older</option>
+                            <option>Under 18</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-1">Briefly tell us why you'd be a great fit:</label>
+                    <textarea rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-icepink-500 focus:outline-none" placeholder="Tell us about your driving experience or customer service skills..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-icepink-500 text-white font-black py-3 rounded-xl hover:bg-icepink-600 transition-colors shadow">
+                    Submit Job Application
+                </button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
